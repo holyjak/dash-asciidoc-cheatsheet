@@ -1,3 +1,6 @@
+;; Babashka script to produce a Dash cheatsheet-producing Ruby code
+;; NOTE: I could also use nbb and showdown to do Markdown -> HTML myself instead of
+;; relying on the weird impl. in the Ruby lib; see https://github.com/borkdude/nbb/blob/main/examples/showdown/example.cljs
 (def cheatsheet
   [; Categories
    ["Document header"
@@ -25,13 +28,32 @@
    
    ["Headers"
     [[""
-      {:table [["== Level 1\ntext" "<h2>Level 1</h2>Text."]
-               ["=== Level 2\ntext" "<h3>Level 2</h3>Text."]
-               ["==== Level 3\ntext" "<h4>Level 3</h4>Text."]
-               ["===== Level 4\ntext" "<h5>Level 4</h5>Text."]]}]]]
+      {:table [["<pre>== Level 1\ntext</pre>" "<h2>Level 1</h2>Text."]
+               ["<pre>=== Level 2\ntext</pre>" "<h3>Level 2</h3>Text."]
+               ["<pre>==== Level 3\ntext</pre>" "<h4>Level 3</h4>Text."]
+               ["<pre>===== Level 4\ntext</pre>" "<h5>Level 4</h5>Text."]]}]]]
    
    ["Paragraphs"
-    [["" {:note "todo"}]]]])
+    [["" 
+      {:table [[[:pre ".Optional Title\nUsual paragraph."]
+                [:div [:div.title "Optional Title"]
+                 [:p "Usual paragraph"]]]
+               [[:pre ".Optional Title\n```clojure\n(hello!)\n```"]
+                [:div [:div.title "Optional Title"]
+                 [:pre [:code "(hello!)"]]]]
+               ]}]
+     ["Admonitions"
+      {:table [[[:pre "NOTE: This is an example\n      single-paragraph note."]
+                [:table [:tr [:td "NOTE"] [:td [:div.title "Optional Title"]
+                                           [:p "This is an example single-paragraph note."]]]]]
+               [[:code "TIP: (i) Useful to know"]
+                [:table.admon [:tr [:td "TIP"] [:td [:p "(i) Useful to know"]]]]]
+               [[:code "IMPORTANT: (!)"]
+                [:table.admon [:tr [:td "IMPORTANT"] [:td [:p "(!)"]]]]]
+               [[:code "WARNING: Warning"]
+                [:table.admon [:tr [:td "WARNING"] [:td [:p "Warning"]]]]]
+               [[:code "CAUTION: Beware...."]
+                [:table.admon [:tr [:td "CAUTION"] [:td [:p "Beware..."]]]]]]}]]]])
 
 (defn indent [strs]
   (map #(str "  " %) strs))
@@ -59,9 +81,13 @@
        ["<tr>"
         (for [cell row]
           ["<td>"
-           (str/replace cell
-             "<pre>"
-             "<pre class='highlight plaintext'>")
+           (-> (cond
+                 (vector? cell) (hiccup.core/html cell)
+                 (string? cell) cell
+                 :else (throw (ex-info "Invalid type" {:cell cell})))
+             (str/replace
+               "<pre>"
+               "<pre class='highlight plaintext'>"))
            "</td>"])
         "</tr>"])
      "</table>"]))
@@ -111,4 +137,11 @@
    (rubify category->rb categories)
    (str/join "\n")))
 
-(println (cheatsheet->rb cheatsheet))
+(spit "dash-asciidoc-cheatsheet.rb"
+  (str (slurp "header.rb")
+    "\n"
+    (cheatsheet->rb cheatsheet)
+    "\n"
+    (slurp "footer.rb")))
+
+(println "File `dash-asciidoc-cheatsheet.rb` written")
