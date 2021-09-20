@@ -15,6 +15,14 @@ See https://github.com/Kapeli/cheatset#readme
 
 Based on https://powerman.name/doc/asciidoc, https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/, and https://tomd.xyz/asciidoctor-cheatsheet/
 
-## FIXME
+## Log - Clojure
 
-Define stitle for .title
+```
+git clone https://github.com/powerman/asciidoc-cheatsheet.git
+cd asciidoc-cheatsheet
+docker run --rm -it -v (pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor full.adoc
+
+bb html2dash.bb
+docker compose up
+```
+

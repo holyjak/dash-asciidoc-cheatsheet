@@ -34,14 +34,13 @@
                ["<pre>===== Level 4\ntext</pre>" "<h5>Level 4</h5>Text."]]}]]]
    
    ["Paragraphs"
-    [["" 
+    [[""
       {:table [[[:pre ".Optional Title\nUsual paragraph."]
                 [:div [:div.title "Optional Title"]
                  [:p "Usual paragraph"]]]
                [[:pre ".Optional Title\n```clojure\n(hello!)\n```"]
                 [:div [:div.title "Optional Title"]
-                 [:pre [:code "(hello!)"]]]]
-               ]}]
+                 [:pre [:code "(hello!)"]]]]]}]
      ["Admonitions"
       {:table [[[:pre "NOTE: This is an example\n      single-paragraph note."]
                 [:table [:tr [:td "NOTE"] [:td [:div.title "Optional Title"]
@@ -53,7 +52,11 @@
                [[:code "WARNING: Warning"]
                 [:table.admon [:tr [:td "WARNING"] [:td [:p "Warning"]]]]]
                [[:code "CAUTION: Beware...."]
-                [:table.admon [:tr [:td "CAUTION"] [:td [:p "Beware..."]]]]]]}]]]])
+                [:table.admon [:tr [:td "CAUTION"] [:td [:p "Beware..."]]]]]]}]]]
+     
+   ["Blocks"
+    [[""
+      {:table []}]]]])
 
 (defn indent [strs]
   (map #(str "  " %) strs))
