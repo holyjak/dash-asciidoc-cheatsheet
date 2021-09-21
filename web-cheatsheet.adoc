@@ -16,7 +16,8 @@ TODO
 = h1
 == h2
 === h3
-etc.
+==== h4
+===== h5
 ....
 
 == Paragraphs
@@ -29,7 +30,7 @@ Another paragraph.
 
  A literal paragraph is indented
 
-To pass through unchanged to HTML, wrap with three `+`:
+To pass inline text through unchanged to HTML, wrap with three `+`:
 
 ....
 +++<div id=x>+++
@@ -37,7 +38,7 @@ To pass through unchanged to HTML, wrap with three `+`:
 
 === Assign id and CSS class(es) (a.k.a. roles) to inline text
 
-Roles = CSS classes can be assigned similarly as ID, see "Links and anchors" below - only using `[.class.another]` instead of `[#id]`.
+Roles = CSS classes can be assigned similarly as ID, see "Links and anchors" below. Ex.: `+[.class.another]#some text#`.
 
 == Text Formatting
 
@@ -72,12 +73,7 @@ NOTE: An admonition *paragraph* draws attention to auxiliary information.
 * An admonition *block* may contain complex content.
 ====
 
-.Available admonitions
-* NOTE
-* TIP 
-* IMPORTANT 
-* WARNING 
-* CAUTION 
+All admonitions: NOTE, TIP, IMPORTANT, WARNING, CAUTION .
 
 === Blocks
 
@@ -91,26 +87,26 @@ NOTE: An admonition *paragraph* draws attention to auxiliary information.
 ```
 
 |===
+| block type | separator, attributes, comments
+
 | source code | `----`; attributes: `[source,ruby]`
 | source code (markdown) 
 | +++```&lt;language&gt; ... ```+++
 | sidebar | `+++****+++`
-| example | `====`; expandable^2^: `[%collapsible]`, closable: `[%collapsible%open]`
-| quote   | `+++____+++`; attributes: `[quote, Author, Source]`^1^
+| example | `====`; expandable^1^: `[%collapsible]`, closable: `[%collapsible%open]`
+| quote   | `+++____+++`; attributes: `[quote, Author, Source]`^2^
 | quote, alternative | "Text in quotes", on a new line `-- Author, Source`
-| open^2^    | `--` An anonymous container; can masquerade as any other by naming it: `+[source\|...]+`
+| open^1^    | `--` An anonymous container; can masquerade as any other by naming it: `+[source\|...]+`
 | passthrough | four `+`, pass content unchanged; e.g. to include HTML  
 |===
 
-1. Wrap the quote source in `'` to be able to include adoc links etc.
-2. The expandable example block and open block may contain other blocks
+1. The expandable example block and open block may contain other blocks
+2. Wrap the quote source in `'` to be able to include adoc links etc.
 
-General block attributes: link:https://docs.asciidoctor.org/asciidoc/latest/attributes/ids/#anchor[`id`] (or `#`), link:https://docs.asciidoctor.org/asciidoc/latest/attributes/role/[`role`] (or `.`) = css class. Example of both using the shorthand form: `+[quote#roads.movie.class2, Dr. Emmett Brown]+`.
+General block attributes: link:https://docs.asciidoctor.org/asciidoc/latest/attributes/ids/#anchor[`id`] (or `+#+`), link:https://docs.asciidoctor.org/asciidoc/latest/attributes/role/[`role`] (or `.`) = css class. Example of both using the shorthand form: `+[quote#roads.movie.class2, Dr. Emmett Brown]+`.
 
 === Source code listing
 
-.Delme
-[#someid]
 ....
 include::includes-examples.adoc[tag=codelisting]
 ....
@@ -157,30 +153,17 @@ Its answer
 
 === Anchors
 
-*Block or a section* heading: in the attribute list include `[id=yourid]` or the shorthand form `+[#yourid]+`
+*Block or a section* heading: in the attribute list include `[id=yourid]` or the shorthand form `+[#yourid]+` (as first).
 
 *Inline*, on quoted text using either formatting marks such as `*` or `#`: `+[#inline_target]#targeted# txt+`. Or just insert an empty anchor: `+[[empty-anchor]]not inside+`.
 
 Anchors can be used anywhere where macro substitution applies.
 
-.Anchors
-[example]
---
-[#inline_bold]*free the world*
+*Link to it* to it via `+<<myid>>+`, which will use the target text as the label, or `+<<myid,custom label>>+`.
 
-[#inline_nonspecific]#free the world#
+=== Links
 
-[#id-via-attribute]
-=== Title
-
-...
---
-
-Via `+[#myid]+` at the beginning of an attribute list or `+[[another-id]]+`.
-
-Link to it via `+<<myid>>+` or `+<<myid,custom label>>+`. The text will be taken from the target:
-
-[[myid]]target text.
+TODO
 
 == Images
 
