@@ -1,0 +1,192 @@
+= AsciiDoc cheat sheet focused on the web
+
+== Structure
+
+=== Document header
+
+TODO
+
+=== Attributes
+
+TODO
+
+=== Section titles
+
+....
+= h1
+== h2
+=== h3
+etc.
+....
+
+== Paragraphs
+
+.Optional Title
+Just text. Line breaks
+ignored.
+
+Another paragraph.
+
+ A literal paragraph is indented
+
+To pass through unchanged to HTML, wrap with three `+`:
+
+....
++++<div id=x>+++
+....
+
+=== Assign id and CSS class(es) (a.k.a. roles) to inline text
+
+Roles = CSS classes can be assigned similarly as ID, see "Links and anchors" below - only using `[.class.another]` instead of `[#id]`.
+
+== Text Formatting
+
+|===
+| *bold* | `+*bold*+`
+| _italic_ | `+_italic_+`
+| *_both_* | `+*_both_*+`
+| `monospace` | `+++`monospace`+++`
+| `+li**t**eral+` | `+li**t**eral+` - add `+` to suppress formatting etc.
+| `*_works in code_*` | `+++`*_works..._*`+++`
+| **b**ol__d__ c``od``e | double to stop mid-word: `+++**b**ol__d__ c``od``e+++`
+| #highlight# | `+#highlight#+`
+| [.underline]#underline# | `+[.underline]#underline#+`
+| [.line-through]#line-through# | `+[.line-through]#line-through#+`
+| [.my-class]#txt# | assign arbitrary css class: `+[.my-class]#txt#+`
+| ^super^script | `+^super^script+`
+| ~sub~script | `+~sub~script+`
+| "`double curved quotes`" | `+"`double curved quotes`"+`
+| '`single curved quotes`' | `+'`single curved quotes`'+`
+| apostrophes`' vs x' | `+apostrophes`' vs x'+`
+|===
+
+
+== Blocks and admonitions
+
+=== Admonitions
+
+NOTE: An admonition *paragraph* draws attention to auxiliary information.
+
+[NOTE]
+====
+* An admonition *block* may contain complex content.
+====
+
+.Available admonitions
+* NOTE
+* TIP 
+* IMPORTANT 
+* WARNING 
+* CAUTION 
+
+=== Blocks
+
+.General structure of a block:
+```
+.Optional title
+[optional attributes]
+<separator (2 or 4 characters)>
+<content>
+<separator>
+```
+
+|===
+| source code | `----`; attributes: `[source,ruby]`
+| source code (markdown) 
+| +++```&lt;language&gt; ... ```+++
+| sidebar | `+++****+++`
+| example | `====`; expandable^2^: `[%collapsible]`, closable: `[%collapsible%open]`
+| quote   | `+++____+++`; attributes: `[quote, Author, Source]`^1^
+| quote, alternative | "Text in quotes", on a new line `-- Author, Source`
+| open^2^    | `--` An anonymous container; can masquerade as any other by naming it: `+[source\|...]+`
+| passthrough | four `+`, pass content unchanged; e.g. to include HTML  
+|===
+
+1. Wrap the quote source in `'` to be able to include adoc links etc.
+2. The expandable example block and open block may contain other blocks
+
+General block attributes: link:https://docs.asciidoctor.org/asciidoc/latest/attributes/ids/#anchor[`id`] (or `#`), link:https://docs.asciidoctor.org/asciidoc/latest/attributes/role/[`role`] (or `.`) = css class. Example of both using the shorthand form: `+[quote#roads.movie.class2, Dr. Emmett Brown]+`.
+
+=== Source code listing
+
+.Delme
+[#someid]
+....
+include::includes-examples.adoc[tag=codelisting]
+....
+
+See https://docs.asciidoctor.org/asciidoc/latest/directives/include-with-indent/[include-with-indent], https://docs.asciidoctor.org/asciidoc/latest/directives/include-tagged-regions/[include-tagged-regions] and https://docs.asciidoctor.org/asciidoc/latest/directives/include-lines/[include-lines].
+
+== Lists
+
+.List basics
+* Level 1
+** Level 2, ... up to 5
+   *** Lists can be indented. Leading whitespace is not significant.
+   . Nested level 1 order list
+   .. order list 2nd level
++
+[example]
+--
+To include complex content, unindent it and
+put the list continuation sign `+` on the line between it and the list item
+--
+   .. but a literal paragraph does not require a list continuation:
+
+   $ echo "it works"
+
+   .. end
+
+.Checklist
+* [ ] unchecked
+* [x] checked
+
+.Definition list
+First term:: the definition can be inline
+Second term:: 
+or on a new line
+
+.Q&A is like a def. list with a marker
+[qanda]
+Question:: Answer
+
+Another question::
+Its answer
+
+== Links and anchors
+
+=== Anchors
+
+*Block or a section* heading: in the attribute list include `[id=yourid]` or the shorthand form `+[#yourid]+`
+
+*Inline*, on quoted text using either formatting marks such as `*` or `#`: `+[#inline_target]#targeted# txt+`. Or just insert an empty anchor: `+[[empty-anchor]]not inside+`.
+
+Anchors can be used anywhere where macro substitution applies.
+
+.Anchors
+[example]
+--
+[#inline_bold]*free the world*
+
+[#inline_nonspecific]#free the world#
+
+[#id-via-attribute]
+=== Title
+
+...
+--
+
+Via `+[#myid]+` at the beginning of an attribute list or `+[[another-id]]+`.
+
+Link to it via `+<<myid>>+` or `+<<myid,custom label>>+`. The text will be taken from the target:
+
+[[myid]]target text.
+
+== Images
+
+== Tables
+
+== Extra
+
+* comments
+
