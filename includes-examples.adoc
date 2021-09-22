@@ -1,3 +1,59 @@
+= Examples to include in the cheat sheet
+
+== Paragraphs
+
+// tag::paragraphs[]
+.Optional Title
+Just text. Line breaks
+ignored. but can be forced +
+with a plus.
+
+Another paragraph.
+
+ A literal paragraph is indented
+// end::paragraphs[]
+
+== Lists
+
+// tag::lists[]
+* Level 1
+** Level 2, ... up to 5
+   *** Lists can be indented. Leading whitespace is not significant.
+   . Nested level 1 order list
+   .. order list 2nd level
++
+====
+To include complex content, unindent it and
+put the list continuation sign `+` on the line between it and the list item
+====
+   .. but a literal paragraph does not require a list continuation:
+
+   $ echo "it works"
+
+   .. end
+
+[]
+. To split a list into 2, put an empty line and a block attribute line (possibly empty) before the second list
+
+.Checklist
+* [ ] unchecked
+* [x] checked
+
+.Definition list
+First term:: the definition can be inline
+Second term:: 
+or on a new line
+
+.Q&A is a def. list with the qanda attribute
+[qanda]
+Question:: Answer
+
+Another question::
+Its answer
+// end::lists[]
+
+== Code listing
+
 // tag::codelisting[]
 [source]
 ----
@@ -7,11 +63,8 @@ Python etc.  # <3>
 XML          <!--4-->
 # Include from a file, optionally from tag to tag, un-indent:
 \include::lib/app.rb[tag=mytag,indent=0]
-Inside it, you would tag a region(s) via line comments:
-# tag::mytag[]
-...
-# end::mytag[]
-# or include lines (-1 = until the end):
+
+# or include specific lines (-1 = until the end):
 \include::filename.txt[lines=7;14..25;30..-1]
 ----
 <1> callout
@@ -19,3 +72,17 @@ Inside it, you would tag a region(s) via line comments:
 <3> callout
 <4> callout
 // end::codelisting[]
+
+== Tables
+
+// tag::tables[]
+[cols="20,80"]
+|===
+| Country | City
+
+| Norway  | Oslo
+| Czechia | Ostrava
+
+| footer  | after empty line
+|===
+// end::tables[]

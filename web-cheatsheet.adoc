@@ -4,31 +4,81 @@
 
 === Document header
 
-TODO
+....
+= Main Header
+Optional Author Name <optional@author.email>
+Optional version, optional date
+:Author:    AlternativeWayToSetOptional Author Name
+:Email:     <AlternativeWayToSetOptional@author.email>
+:Date:      AlternativeWayToSetOptional date
+:Revision:  AlternativeWayToSetOptional version
+....
 
-=== Attributes
+== Attributes
 
-TODO
+=== Document attributes
+
+Configure and turn on/off built-in features, built-in asset locations, set "variables" for reuse elsewhere in the document. See https://docs.asciidoctor.org/asciidoc/latest/attributes/document-attributes/#what-does-defining-a-document-attribute-mean[rules for values].
+
+Most document attributes are set right under the main header / document title, some can be (re)set anywhere (e.g. `secnum`):
+
+....
+= Title
+:secnum:          // turn on a boolean attr
+:!secnum:         // turn it off
+:imagesdir: ./my/img/subdir/     // built-in attr. with a value
+:my-homepage: https://holyjak.cz // a custom attribute
+
+A reference to an attribute such as link:{my-homepage}[my www] will be replaced with the value automatically.
+....
+
+
+=== Element attributes
+
+Override the built-in settings of blocks, macros, or inline elements and add custom settings (e.g. id, CSS classes) by using attribute lists. Attributes are comma-separated and can be positional (come first) or named:
+
+....
+[Image alt text,200, 150]
+["Image alt text", height=150,width=200]
+....
+
+* Values can be enclosed in double `"` or single `'` quotes; only inside `'...'` do normal substitutions (basic formatting etc.) apply
+* Document attribute references are replaced with their values
 
 === Section titles
 
 ....
-= h1
-== h2
-=== h3
-==== h4
-===== h5
+= Document title (h1)
+== Level 1 (h2)
+...
+====== Level 5 (h6)
 ....
+
+To auto-number sections, turn on `sectnums`: 
+
+....
+= Top-level title
+:sectnums:
+:sectnumlevels: 2   <1>
+== Numbered section
+:!sectnums:
+== Unnumbered again
+....
+<1> Number section headings at levels 1 and 2. Optional, default: levels 1-3
+
+To use a heading where sections are not allowed (e.g. inside a block), set the `[discrete]` attribute.
 
 == Paragraphs
 
-.Optional Title
-Just text. Line breaks
-ignored.
+.Source
+....
+include::includes-examples.adoc[tag=paragraphs]
+....
 
-Another paragraph.
-
- A literal paragraph is indented
+.Rendered
+====
+include::includes-examples.adoc[tag=paragraphs]
+====
 
 To pass inline text through unchanged to HTML, wrap with three `+`:
 
@@ -38,7 +88,7 @@ To pass inline text through unchanged to HTML, wrap with three `+`:
 
 === Assign id and CSS class(es) (a.k.a. roles) to inline text
 
-Roles = CSS classes can be assigned similarly as ID, see "Links and anchors" below. Ex.: `+[.class.another]#some text#`.
+Roles = CSS classes can be assigned similarly as ID, see "<<Links and anchors>>" below. Ex.: `+[.class.another]#some text#+`.
 
 == Text Formatting
 
@@ -46,8 +96,8 @@ Roles = CSS classes can be assigned similarly as ID, see "Links and anchors" bel
 | *bold* | `+*bold*+`
 | _italic_ | `+_italic_+`
 | *_both_* | `+*_both_*+`
-| `monospace` | `+++`monospace`+++`
-| `+li**t**eral+` | `+li**t**eral+` - add `+` to suppress formatting etc.
+| `mon**os**pace` | `+++`mon**os**pace`+++` - formatting applies
+| `+li**t**eral monospace+` | $$`+li**t**eral+`$$ - add `+` to suppress formatting etc.
 | `*_works in code_*` | `+++`*_works..._*`+++`
 | **b**ol__d__ c``od``e | double to stop mid-word: `+++**b**ol__d__ c``od``e+++`
 | #highlight# | `+#highlight#+`
@@ -60,7 +110,6 @@ Roles = CSS classes can be assigned similarly as ID, see "Links and anchors" bel
 | '`single curved quotes`' | `+'`single curved quotes`'+`
 | apostrophes`' vs x' | `+apostrophes`' vs x'+`
 |===
-
 
 == Blocks and admonitions
 
@@ -91,19 +140,19 @@ All admonitions: NOTE, TIP, IMPORTANT, WARNING, CAUTION .
 
 | source code | `----`; attributes: `[source,ruby]`
 | source code (markdown) 
-| +++```&lt;language&gt; ... ```+++
+| `pass:[```&lt;language&gt; ... ```]`
 | sidebar | `+++****+++`
 | example | `====`; expandable^1^: `[%collapsible]`, closable: `[%collapsible%open]`
 | quote   | `+++____+++`; attributes: `[quote, Author, Source]`^2^
 | quote, alternative | "Text in quotes", on a new line `-- Author, Source`
 | open^1^    | `--` An anonymous container; can masquerade as any other by naming it: `+[source\|...]+`
-| passthrough | four `+`, pass content unchanged; e.g. to include HTML  
+| passthrough | `pass:[++++]`, pass content unchanged; e.g. to include HTML  
 |===
 
 1. The expandable example block and open block may contain other blocks
-2. Wrap the quote source in `'` to be able to include adoc links etc.
+2. Wrap the quote source in `'` to enable basic AsciiDoc such as links
 
-General block attributes: link:https://docs.asciidoctor.org/asciidoc/latest/attributes/ids/#anchor[`id`] (or `+#+`), link:https://docs.asciidoctor.org/asciidoc/latest/attributes/role/[`role`] (or `.`) = css class. Example of both using the shorthand form: `+[quote#roads.movie.class2, Dr. Emmett Brown]+`.
+*Common block attributes*: link:https://docs.asciidoctor.org/asciidoc/latest/attributes/ids/#anchor[`id`] (or `+#+`), link:https://docs.asciidoctor.org/asciidoc/latest/attributes/role/[`role`] (or `.`) = css class, link:https://docs.asciidoctor.org/asciidoc/latest/attributes/options/[`options`] (or `opts` for short or the repeatable `%<name>`). Example of all, using the shorthand forms: `+[quote#roads.movie.class2%fakeOpt, Dr. Emmett Brown]+`.
 
 === Source code listing
 
@@ -111,65 +160,99 @@ General block attributes: link:https://docs.asciidoctor.org/asciidoc/latest/attr
 include::includes-examples.adoc[tag=codelisting]
 ....
 
+When including regions by tags, mark them using line comments like these:
+
+```python
+# tag::mytag[]
+...
+# end::mytag[]
+```
+
 See https://docs.asciidoctor.org/asciidoc/latest/directives/include-with-indent/[include-with-indent], https://docs.asciidoctor.org/asciidoc/latest/directives/include-tagged-regions/[include-tagged-regions] and https://docs.asciidoctor.org/asciidoc/latest/directives/include-lines/[include-lines].
 
 == Lists
 
-.List basics
-* Level 1
-** Level 2, ... up to 5
-   *** Lists can be indented. Leading whitespace is not significant.
-   . Nested level 1 order list
-   .. order list 2nd level
-+
-[example]
---
-To include complex content, unindent it and
-put the list continuation sign `+` on the line between it and the list item
---
-   .. but a literal paragraph does not require a list continuation:
+.Source
+....
+include::includes-examples.adoc[tag=lists]
+....
 
-   $ echo "it works"
-
-   .. end
-
-.Checklist
-* [ ] unchecked
-* [x] checked
-
-.Definition list
-First term:: the definition can be inline
-Second term:: 
-or on a new line
-
-.Q&A is like a def. list with a marker
-[qanda]
-Question:: Answer
-
-Another question::
-Its answer
+.Rendering
+====
+include::includes-examples.adoc[tag=lists]
+====
 
 == Links and anchors
 
 === Anchors
 
-*Block or a section* heading: in the attribute list include `[id=yourid]` or the shorthand form `+[#yourid]+` (as first).
+*Block or a section* heading: in the attribute list include `[id=myid]` or the shorthand form `+[#myid]+` (as first).
 
 *Inline*, on quoted text using either formatting marks such as `*` or `#`: `+[#inline_target]#targeted# txt+`. Or just insert an empty anchor: `+[[empty-anchor]]not inside+`.
 
-Anchors can be used anywhere where macro substitution applies.
+Anchors can be used anywhere https://docs.asciidoctor.org/asciidoc/latest/subs/#substitution-groups[where macro substitution applies].
 
-*Link to it* to it via `+<<myid>>+`, which will use the target text as the label, or `+<<myid,custom label>>+`.
-
+[#links-anchor]
 === Links
 
-TODO
+*Link to an anchor* via `+<<myid>>+`, which will use the target text as the label, or `+<<myid,custom label>>+`. You can also link directly to a section heading using its text: `+<<Links>>+`.
+
+|===
+| Links to anchors: |
+| `+<<links-anchor>>+` | <<links-anchor>>
+| `+<<links-anchor,my label>>+` | <<links-anchor,my label>>
+| `+<<Links>>+` | <<Links>>
+| External links: |
+| `+http://xy.z+` | http://xy.z
+| `+http://xy.z[label]+` | http://xy.z[label]
+| `+link:/some/path[path only]+` | link:/some/path[path only]
+|===
+
+Beware: Some URLs look like formatting and confuse the parser. To fix, wrap like this `$$link:++the-url++$$` or assign it to an attribute and use that.
+
+https://docs.asciidoctor.org/asciidoc/latest/macros/link-macro-ref/[Supported attributes]: id, role (= CSS class), title, window (or append `^` to the label for _blank), opts. 
 
 == Images
 
+Block image: `+image::<path|url>[<attributes>]+`
+
+Inline image: same but single `:`
+
+Positional attributes: `[alt, width, height]`. W/h are numbers in px or %: 150 or 50%.
+
+Named attributes (^1^ applies only to block images): 
+
+* https://docs.asciidoctor.org/asciidoc/latest/macros/image-position/[Positioning]: align^1^=left|center|right, float=left|right (adds CSS style with `float`), role (built-in classes: left, right, text-left, text-right, text-center; note: `.role` shorthand not supported)
+* Add a frame: `role="thumb"` (as thumbnail)
+* caption^1^
+* link
+
+Note: The document attribute `imagesdir` (default: empty) is automatically prepended to all relative paths.
+
 == Tables
+
+.Source
+....
+include::includes-examples.adoc[tag=tables]
+....
+
+.Rendered
+====
+include::includes-examples.adoc[tag=tables]
+====
+
+* Make first line header by appending an empty line
+* Options include `%autowidth`
+* See https://docs.asciidoctor.org/asciidoc/latest/tables/add-columns/[sizing, alignment via cols], https://docs.asciidoctor.org/asciidoc/latest/tables/data-format/[CSV data] etc.
 
 == Extra
 
-* comments
+* Comments: `// comment here`
+* Macros: block (`::`) or inline (`:`): `+<macro name>::<target>[<attrs>]+`
+* https://docs.asciidoctor.org/asciidoc/latest/pass/pass-macro/[Escape] by prepending `+\+` or wrapping with `pass:[+++...+++]` or use the pass inline macro `+++pass:[whatever]+++` 
+* `+'''+` => `<hr>`
+* Footnote: `footnote:<optional id>[text]`
+* Appending: prepend a line with `[appendix]`
+* How to https://docs.asciidoctor.org/asciidoc/latest/macros/icons/[enable icons] for admonitions, callouts, and the icon macro
+* https://docs.asciidoctor.org/asciidoc/latest/subs/substitutions/[Substitutions, where they apply]; types: special char. (<, >, & -> `+&lt;+` etc.), quotes, attribute `{references}`, replacements (e.g. `+(R), &euro;, &#x2020;+` => (R), &euro;, &#x2020;; Unicode escape sequence yet unsupported), macros, post-replacements (the line break char. `+`)
 
