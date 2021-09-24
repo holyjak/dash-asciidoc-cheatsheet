@@ -13,7 +13,7 @@ cheatsheet do
     .admon td:nth-child(1) { width: 6em; }
     '
   
-    introduction 'AsciiDoctor cheat sheet'  # Optional, can contain Markdown or HTML
+    introduction 'On opinionated AsciiDoctor cheat sheet for authoring HTML, by [Jakub Holý](https://holyjak.cz)'
   
     # A cheat sheet must consist of categories
 

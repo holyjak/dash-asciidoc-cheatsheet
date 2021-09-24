@@ -70,6 +70,9 @@ To use a heading where sections are not allowed (e.g. inside a block), set the `
 
 == Paragraphs
 
+// An "empty" heading so that everything has the same structure and is easier to parse
+=== &nbsp;
+
 .Source
 ....
 include::includes-examples.adoc[tag=paragraphs]
@@ -91,6 +94,8 @@ To pass inline text through unchanged to HTML, wrap with three `+`:
 Roles = CSS classes can be assigned similarly as ID, see "<<Links and anchors>>" below. Ex.: `+[.class.another]#some text#+`.
 
 == Text Formatting
+
+=== &nbsp;
 
 |===
 | *bold* | `+*bold*+`
@@ -172,6 +177,8 @@ See https://docs.asciidoctor.org/asciidoc/latest/directives/include-with-indent/
 
 == Lists
 
+=== &nbsp;
+
 .Source
 ....
 include::includes-examples.adoc[tag=lists]
@@ -214,6 +221,8 @@ https://docs.asciidoctor.org/asciidoc/latest/macros/link-macro-ref/[Supported at
 
 == Images
 
+=== &nbsp;
+
 Block image: `+image::<path|url>[<attributes>]+`
 
 Inline image: same but single `:`
@@ -231,6 +240,8 @@ Note: The document attribute `imagesdir` (default: empty) is automatically prepe
 
 == Tables
 
+=== &nbsp;
+
 .Source
 ....
 include::includes-examples.adoc[tag=tables]
@@ -246,6 +257,8 @@ include::includes-examples.adoc[tag=tables]
 * See https://docs.asciidoctor.org/asciidoc/latest/tables/add-columns/[sizing, alignment via cols], https://docs.asciidoctor.org/asciidoc/latest/tables/data-format/[CSV data] etc.
 
 == Extra
+
+=== &nbsp;
 
 * Comments: `// comment here`
 * Macros: block (`::`) or inline (`:`): `+<macro name>::<target>[<attrs>]+`

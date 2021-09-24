@@ -1,28 +1,11 @@
 AsciiDoctor cheat sheet creation for Dash
 =========================================
 
-Run:
+An opinionated AsciiDoctor cheat sheet for the web author and tooling to turn it [into a docset for Dash for macOS](https://github.com/Kapeli/cheatset#readme).
 
-    docker compose up
+Based partially on https://powerman.name/doc/asciidoc .
 
-Browse the result:
+## Transformation steps
 
-    cd AsciiDoctor.docset/Contents/Resources/Documents
-    python3 -m http.server 8001
-    # browse to http://localhost:8001
-
-See https://github.com/Kapeli/cheatset#readme
-
-Based on https://powerman.name/doc/asciidoc, https://docs.asciidoctor.org/asciidoc/latest/syntax-quick-reference/, and https://tomd.xyz/asciidoctor-cheatsheet/
-
-## Log - Clojure
-
-```
-git clone https://github.com/powerman/asciidoc-cheatsheet.git
-cd asciidoc-cheatsheet
-docker run --rm -it -v (pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor full.adoc
-
-bb html2dash.bb
-docker compose up
-```
+    docker run --rm -it -v (pwd):/documents/ asciidoctor/docker-asciidoctor asciidoctor web-cheatsheet.adoc
 
