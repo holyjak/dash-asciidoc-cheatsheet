@@ -35,17 +35,28 @@ A reference to an attribute such as link:{my-homepage}[my www] will be replaced 
 
 === Element attributes
 
-Override the built-in settings of blocks, macros, or inline elements and add custom settings (e.g. id, CSS classes) by using attribute lists. Attributes are comma-separated and can be positional (come first) or named:
+Override the built-in settings of blocks, macros, or inline elements and add custom settings (e.g. id, CSS classes) by using attribute lists. Attributes are comma-separated and can be positional (come first) and/or named:
 
 ....
-[Image alt text,200, 150]
-["Image alt text", height=150,width=200]
+image:path[Image alt text,200, 150]
+image:path["Image alt text", height=150,width=200]
 ....
 
 * Values can be enclosed in double `"` or single `'` quotes; only inside `'...'` do normal substitutions (basic formatting etc.) apply
 * Document attribute references are replaced with their values
+* For blocks and block elements, put the attributes on the preceding line:
 
-=== Section titles
+....
+[square]
+* one
+* two
+....
+
+== Section titles
+
+=== &nbsp;
+
+Mark titles with `=`:
 
 ....
 = Document title (h1)
@@ -57,7 +68,6 @@ Override the built-in settings of blocks, macros, or inline elements and add cus
 To auto-number sections, turn on `sectnums`: 
 
 ....
-= Top-level title
 :sectnums:
 :sectnumlevels: 2   <1>
 == Numbered section
@@ -73,15 +83,17 @@ To use a heading where sections are not allowed (e.g. inside a block), set the `
 // An "empty" heading so that everything has the same structure and is easier to parse
 === &nbsp;
 
++++<table><tr style="vertical-align:top"><td>+++
 .Source
 ....
 include::includes-examples.adoc[tag=paragraphs]
 ....
-
++++</td><td>+++
 .Rendered
-====
+--
 include::includes-examples.adoc[tag=paragraphs]
-====
+--
++++</td></tr></table>+++
 
 To pass inline text through unchanged to HTML, wrap with three `+`:
 
@@ -132,14 +144,15 @@ All admonitions: NOTE, TIP, IMPORTANT, WARNING, CAUTION .
 === Blocks
 
 .General structure of a block:
-```
+....
 .Optional title
 [optional attributes]
 <separator (2 or 4 characters)>
 <content>
 <separator>
-```
+....
 
+[%autowidth]
 |===
 | block type | separator, attributes, comments
 
@@ -204,6 +217,7 @@ Anchors can be used anywhere https://docs.asciidoctor.org/asciidoc/latest/subs/#
 
 *Link to an anchor* via `+<<myid>>+`, which will use the target text as the label, or `+<<myid,custom label>>+`. You can also link directly to a section heading using its text: `+<<Links>>+`.
 
+[%autowidth]
 |===
 | Links to anchors: |
 | `+<<links-anchor>>+` | <<links-anchor>>
