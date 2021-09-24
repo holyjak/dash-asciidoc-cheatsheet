@@ -14,14 +14,7 @@ Prerequisites: [Babashka](https://babashka.org), Docker.
       asciidoctor web-cheatsheet.adoc
     # 2. HTML -> docset
     bb html2dash.bb
-    # 3. .rb -> AsciiDoctor.docset
-    cp 
 
-## FIXME
+## TODO
 
-The ruby -> docset transf. screws up due to trying to interpret markdown inside HTML:
-
-* Blocks: `<` becomes `&gt;language`
-* Source code listing: `<pre>` is somehow lost, becomes `<p>`
-* the rest of "Blocks and admonitions" and also "Lists"
-* "Escape ..." text 
+Improve styling, copy the necessary asciidoc style minimum (e.g. to make %autowidth working).

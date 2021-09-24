@@ -104,21 +104,25 @@
   index-file)
 
 ;; --------------------- do it all
-(let [docset-resources (fs/file "AsciiDoctor.docset/Contents/Resources")
+(let [docset-root      (fs/file "AsciiDoctor.docset")
+      docset-contents  (fs/file docset-root "Contents")
+      docset-resources (fs/file docset-contents "Resources")
       docset-docs      (fs/file docset-resources "Documents")
       html-file        (fs/file docset-docs "index.html")
       index-file       (fs/file docset-resources "docSet.dsidx")
       cheatsheet-data (hickory->categories hickory)]
   (selmer/set-resource-path! (System/getProperty "user.dir"))
 
+  (when (fs/directory? docset-root)
+    (fs/delete-tree docset-root))
   (fs/create-dirs docset-docs)
+  (fs/copy-tree "resources/Contents" docset-contents)
 
   (spit html-file
     (selmer/render-file "./cheatsheet.template.html" {:categories cheatsheet-data}))
 
   (printf "DocSet file `%s` written\n" html-file)
 
-  (fs/delete-if-exists index-file)
   (-> (str (fs/path index-file))
       (init-index!)
       (build-index! cheatsheet-data))
