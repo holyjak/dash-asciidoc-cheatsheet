@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='utf-8'>
+<title>AsciiDoctor</title>
+<link href='style.css' rel='stylesheet'>
+<style type='text/css'>
+    .title {
+      font-size: 1.2em;
+      margin-bottom: 0.5em;
+      color: #527bbd;
+      font-weight: bold;
+    }
+    .admon td:nth-child(1) { width: 6em; }
+    </style>
+{% for category in categories %}
+  <link href='//dash_ref/Category/{{category.0}}/1'>
+  {% for entry in category.1 %}
+    <link href='//dash_ref_{{category.0}}/Entry/{{entry.0}}/0'>
+  {% endfor %}
+{% endfor %}
+</head>
+<body>
+<header>
+<h1>AsciiDoctor</h1>
+</header>
+<article>
+<p><p>On opinionated AsciiDoctor cheat sheet for authoring HTML, by <a href="https://holyjak.cz">Jakub Holý</a></p>
+</p>
+
+{% for category in categories %}
+<section class='category'>
+  <h2 id='//dash_ref/Category/{{category.0}}/1'>{{category.0}}</h2>
+  <div class='scrollable'>
+  <table>
+    {% for entry in category.1 %}
+    <tr id='//dash_ref_MY_{{category.0}}/Entry/{{entry.0}}/0'>
+    <td class='description' colspan='2'>
+    <div class='name'><p>{{entry.0}}</p></div>
+    <div class='notes'><p>{{entry.1|safe}}</p></div>
+    </td>
+    </tr>
+    {% endfor %}
+  </table>
+  </div>
+</section>
+{% endfor %}
+</article>
+<footer>
+Generated with <a onclick="window.dash.openExternal_(this.href); return false;" href='https://github.com/Kapeli/cheatset#readme'>cheatset</a>
+</footer>
+</body>
+</html>

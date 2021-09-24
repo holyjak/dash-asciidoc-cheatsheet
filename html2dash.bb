@@ -1,7 +1,8 @@
 (ns html2dash
   (:require
    [clojure.string :as str]
-   [babashka.pods :as pods]))
+   [babashka.pods :as pods]
+   [selmer.parser :as selmer]))
 
 (pods/load-pod 'retrogradeorbit/bootleg "0.1.9")
 
@@ -117,3 +118,10 @@
   (hickory->ruby hickory))
 
 (println "File `dash-asciidoc-cheatsheet.rb` written")
+
+(comment
+  ;; FIXME create AsciiDoctor.docset/Contents//Resources/docSet.dsidx
+  (selmer/cache-off!)
+  (selmer/set-resource-path! (System/getProperty "user.dir"))
+  (spit "index.html" 
+    (selmer/render-file "./cheatsheet.template.html" {:categories cheatsheet-data})))
