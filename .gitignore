@@ -1,1 +1,7 @@
 AsciiDoctor.docset/
+.calva/
+.clj-kondo/.cache
+.lsp/.cache/
+# Generated files:
+dash-asciidoc-cheatsheet.rb
+web-cheatsheet.html
