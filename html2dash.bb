@@ -5,13 +5,14 @@
    [selmer.parser :as selmer]))
 
 (pods/load-pod 'retrogradeorbit/bootleg "0.1.9")
-
 (require
   '[pod.retrogradeorbit.bootleg.utils :refer [convert-to]]
   '[pod.retrogradeorbit.bootleg.enlive :as enlive]
   '[pod.retrogradeorbit.hickory.select :as s]
   '[pod.retrogradeorbit.hickory.render :refer [hickory-to-html]])
 
+(pods/load-pod 'org.babashka/go-sqlite3 "0.0.1")
+(require '[pod.babashka.go-sqlite3 :as sqlite])
 ;; --------------------------------------------- HTML -> [cats [entries]]
 
 (comment
@@ -67,61 +68,17 @@
     category-tuple->title+entries
     (s/and (s/tag :div) (s/class :sect1))))
 
-;; ------------------------------------------- html -> data -> Ruby
-(defn indent [strs]
-  (map #(str "  " %) strs))
-
-(defn flatten-one [col]
-  (reduce
-    #(if (coll? %2)
-       (into %1 %2)
-       (conj %1 %2))
-    []
-    col))
-
-(defn entry->rb-lines [[name html]]
-  ["entry do"
-   (str "  name '" name "'")
-   "  notes <<-'HTMLEND'"
-   html
-   "  HTMLEND"
-   "end"])
-
-(defn category->rb-lines [[title entries]]
-  (flatten-one
-    ["category do"
-     (str "  id '" title "'")
-     (indent (mapcat entry->rb-lines entries))
-     "end"]))
-
-;(-> cheatsheet-data first second)
-
-(defn hickory->ruby [hickory]
-  (let [body
-        (->> (hickory->categories hickory)
-             (mapcat category->rb-lines)
-             (indent)
-             (str/join "\n"))]
-    (str
-      (slurp "header.rb")
-      "\n"
-      body
-      "\n"
-      (slurp "footer.rb"))))
-
-
 (def html (slurp "web-cheatsheet.html"))
 (def hickory (convert-to html :hickory)) ; = (->> html hick/parse hick/as-hickory)
 (comment (def cheatsheet-data (hickory->categories hickory)))
 
-(spit "dash-asciidoc-cheatsheet.rb"
-  (hickory->ruby hickory))
+(selmer/set-resource-path! (System/getProperty "user.dir"))
+(spit "index.html" 
+    (selmer/render-file "./cheatsheet.template.html" {:categories (hickory->categories hickory)}))
 
-(println "File `dash-asciidoc-cheatsheet.rb` written")
+(println "File `index.html` written")
 
 (comment
   ;; FIXME create AsciiDoctor.docset/Contents//Resources/docSet.dsidx
   (selmer/cache-off!)
-  (selmer/set-resource-path! (System/getProperty "user.dir"))
-  (spit "index.html" 
-    (selmer/render-file "./cheatsheet.template.html" {:categories cheatsheet-data})))
+  )
