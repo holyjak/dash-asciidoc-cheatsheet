@@ -12,10 +12,10 @@ Prerequisites: [Babashka](https://babashka.org), Docker.
     # 1. .adoc -> HTML:
     docker run --rm -it -v (pwd):/documents/ asciidoctor/docker-asciidoctor \
       asciidoctor web-cheatsheet.adoc
-    # 2. HTML -> .rb
+    # 2. HTML -> docset
     bb html2dash.bb
     # 3. .rb -> AsciiDoctor.docset
-    docker compose up
+    cp 
 
 ## FIXME
 

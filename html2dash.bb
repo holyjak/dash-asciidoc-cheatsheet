@@ -1,6 +1,7 @@
 (ns html2dash
   (:require
    [clojure.string :as str]
+   [babashka.fs :as fs]
    [babashka.pods :as pods]
    [selmer.parser :as selmer]))
 
@@ -75,31 +76,61 @@
 (def hickory (convert-to html :hickory)) ; = (->> html hick/parse hick/as-hickory)
 (comment (def cheatsheet-data (hickory->categories hickory)))
 
-(selmer/set-resource-path! (System/getProperty "user.dir"))
-(spit "index.html" 
-    (selmer/render-file "./cheatsheet.template.html" {:categories (hickory->categories hickory)}))
+(defn cheatsheet-data->index-triples
+  [cheatsheet-data]
+  (->> cheatsheet-data
+       (mapcat
+         (fn [[category-id entries]]
+           (conj
+             (map (fn [[entry-name]]
+                    [entry-name :Entry (format "index.html#//dash_ref_%s/Entry/%s/0"
+                                         category-id entry-name)])
+               entries)
+             [category-id :Category (format "index.html#//dash_ref/Category/%s/1" category-id)])))))
 
-(println "File `index.html` written")
+(defn init-index! [index-file]
+  (sqlite/execute! index-file
+    ["create table searchIndex(id integer primary key, name TEXT, type TEXT, path TEXT)"])
+  index-file)
+
+(defn build-index! [index-file cheatsheet-data]
+  (sqlite/execute! index-file
+    ["insert into searchIndex(name, type, path) values (?,?,?)"
+     "AsciiDoctor" "Category" "index.html"])
+  (doseq [index-triple (cheatsheet-data->index-triples cheatsheet-data)]
+    (sqlite/execute! index-file
+      (into ["insert into searchIndex(name, type, path) values (?,?,?)"]
+        (map name index-triple))))
+  index-file)
+
+;; --------------------- do it all
+(let [docset-resources (fs/file "AsciiDoctor.docset/Contents/Resources")
+      docset-docs      (fs/file docset-resources "Documents")
+      html-file        (fs/file docset-docs "index.html")
+      index-file       (fs/file docset-resources "docSet.dsidx")
+      cheatsheet-data (hickory->categories hickory)]
+  (selmer/set-resource-path! (System/getProperty "user.dir"))
+
+  (fs/create-dirs docset-docs)
+
+  (spit html-file
+    (selmer/render-file "./cheatsheet.template.html" {:categories cheatsheet-data}))
+
+  (printf "DocSet file `%s` written\n" html-file)
+
+  (fs/delete-if-exists index-file)
+  (-> (str (fs/path index-file))
+      (init-index!)
+      (build-index! cheatsheet-data))
+
+  (printf "Index file `%s` written\n" index-file))
 
 (comment
-  (doseq [[_ entries] cheatsheet-data, [entry-name] entries]
-    (when-not (empty-entry-name? entry-name)
-      (println entry-name)))
   
-  (doseq [[category-id] cheatsheet-data]
-    (println category-id))
-
-  (sqlite/execute! "docSet.dsidx"
-    ["create table searchIndex(id integer primary key, name TEXT, type TEXT, path TEXT)"])
-  (sqlite/execute! "docSet.dsidx"
-    ["create unique index anchor on searchIndex (name,type,path)"])
-  (sqlite/execute! "docSet.dsidx"
-    ["insert into searchIndex(name, type, path) values (?,?,?),(?,?,?),(?,?,?)"
-     "AsciiDoctor" "Category" "index.html",
-     "MY_CATEGORY" "Category" "index.html#//dash_ref/Category/MY_CATEGORY/1",
-     "MY_ENTRY" "Entry" "index.html#//dash_ref_MY_CATEGORY/Entry/MY_ENTRY/0"])
-  (sqlite/query "AsciiDoctor.docset//Contents/Resources/docSet.dsidx" 
+  (sqlite/query 
+    index-file
+    ;"AsciiDoctor.docset//Contents/Resources/docSet.dsidx" 
     ["select * from searchIndex"])
-  ;; FIXME create AsciiDoctor.docset/Contents//Resources/docSet.dsidx
+  
   (selmer/cache-off!)
   )
