@@ -44,12 +44,15 @@
                    (map elm->child-elms)
                    (map f)))))
 
+(defn empty-entry-name? [name]
+  (empty? (str/replace name #"\p{Z}" "")))
+
 (defn entry-tuple->title+html [[heading-elm & body-elms]]
   (assert (= :h3 (:tag heading-elm)))
   (assert (seq body-elms))
   [(let [h (heading-elm->text heading-elm)]
      ;; Remove all separator characters such as &nbsp;, check:
-     (if (empty? (str/replace h #"\p{Z}" "")) "" h))
+     (if (empty-entry-name? h) "" h))
    (->> body-elms
         (map hickory-to-html)
         (str/join "\n"))])
@@ -79,6 +82,24 @@
 (println "File `index.html` written")
 
 (comment
+  (doseq [[_ entries] cheatsheet-data, [entry-name] entries]
+    (when-not (empty-entry-name? entry-name)
+      (println entry-name)))
+  
+  (doseq [[category-id] cheatsheet-data]
+    (println category-id))
+
+  (sqlite/execute! "docSet.dsidx"
+    ["create table searchIndex(id integer primary key, name TEXT, type TEXT, path TEXT)"])
+  (sqlite/execute! "docSet.dsidx"
+    ["create unique index anchor on searchIndex (name,type,path)"])
+  (sqlite/execute! "docSet.dsidx"
+    ["insert into searchIndex(name, type, path) values (?,?,?),(?,?,?),(?,?,?)"
+     "AsciiDoctor" "Category" "index.html",
+     "MY_CATEGORY" "Category" "index.html#//dash_ref/Category/MY_CATEGORY/1",
+     "MY_ENTRY" "Entry" "index.html#//dash_ref_MY_CATEGORY/Entry/MY_ENTRY/0"])
+  (sqlite/query "AsciiDoctor.docset//Contents/Resources/docSet.dsidx" 
+    ["select * from searchIndex"])
   ;; FIXME create AsciiDoctor.docset/Contents//Resources/docSet.dsidx
   (selmer/cache-off!)
   )
