@@ -16,56 +16,62 @@ Another paragraph.
 == Lists
 
 // tag::lists[]
-* Level 1
+* Level 1 item of an unordered list
 ** Level 2, ... up to 5
-   *** Lists can be indented. Leading whitespace is not significant.
-   . Nested level 1 order list
-   .. order list 2nd level
+   *** Lists can be indented. Leading whitespace isn't significant.
+   . Nested level 1 ordered list item
+   .. ordered list item 2nd level
 +
 ====
 To include complex content, unindent it and
-put the list continuation sign `+` on the line between it and the list item
+put the list continuation sign `+` on the line 
+between it and the list item
 ====
-   .. but a literal paragraph does not require a list continuation:
+   .. but a literal paragraph does not require a list 
+      continuation:
 
    $ echo "it works"
 
    .. end
 
 []
-. To split a list into 2, put an empty line and a block attribute line (possibly empty) before the second list
-
+. To split a list into 2, put an empty line and a 
+block attribute line (possibly empty) before the second list
+// end::lists[]
+// tag::lists-other-types[]
 .Checklist
 * [ ] unchecked
 * [x] checked
 
 .Definition list
-First term:: the definition can be inline
+First term:: the definition 
+can be inline
 Second term:: 
 or on a new line
 
-.Q&A is a def. list with the qanda attribute
+.Q&A is a def. list with 
+the `qanda` attribute
 [qanda]
 Question:: Answer
 
 Another question::
 Its answer
-// end::lists[]
+// end::lists-other-types[]
 
 == Code listing
 
 // tag::codelisting[]
 [source]
 ----
-clojure, SQL ; <1>
-C-like       // <2>
-Python etc.  # <3>
-XML          <!--4-->
-# Include from a file, optionally from tag to tag, un-indent:
-\include::lib/app.rb[tag=mytag,indent=0]
-
-# or include specific lines (-1 = until the end):
+clojure, SQL     ;  <1>
+C-like           // <2>
+Python etc.      #  <3>
+XML              <!--4-->
+# Include from a file, specific lines only (-1 = until the end):
 \include::filename.txt[lines=7;14..25;30..-1]
+
+# or include regions between tags; also, un-indent:
+\include::lib/app.rb[tag=mytag,indent=0]
 ----
 <1> callout
 <2> callout

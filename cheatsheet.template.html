@@ -5,18 +5,28 @@
 <title>AsciiDoctor</title>
 <link href='style.css' rel='stylesheet'>
 <style type='text/css'>
+    div.name p {font-weight: bold}
     .title {
-      font-size: 1.2em;
+      font-size: 1.1em;
       margin-bottom: 0.5em;
       color: #527bbd;
-      font-weight: bold;
+      font-weight: 400;
     }
     .admon td:nth-child(1) { width: 6em; }
+    .underline {text-decoration: underline}
+    .line-through {text-decoration: line-through}
+    .exampleblock > .content {
+      background: #fffef7;
+      border: 1px solid #e0e0dc;
+      box-shadow: 0 1px 4px #e0e0dc;
+      padding: 0.75em;
+      border-radius: 4px;
+    }
     </style>
 {% for category in categories %}
   <link href='//dash_ref/Category/{{category.0}}/1'>
   {% for entry in category.1 %}
-    <link href='//dash_ref_{{category.0}}/Entry/{{entry.0}}/0'>
+    <link href='//dash_ref_{{category.0}}/Entry/{{entry.0|abbreviate:20}}/0'>
   {% endfor %}
 {% endfor %}
 </head>
@@ -25,7 +35,8 @@
 <h1>AsciiDoctor</h1>
 </header>
 <article>
-<p><p>On opinionated AsciiDoctor cheat sheet for authoring HTML, by <a href="https://holyjak.cz">Jakub Holý</a></p>
+<p><p>On opinionated AsciiDoctor cheat sheet for authoring HTML, by 
+  <a onclick="window.dash.openExternal_(this.href); return false;" href="https://holyjak.cz">Jakub Holý</a></p>
 </p>
 
 {% for category in categories %}
@@ -34,7 +45,7 @@
   <div class='scrollable'>
   <table>
     {% for entry in category.1 %}
-    <tr id='//dash_ref_MY_{{category.0}}/Entry/{{entry.0}}/0'>
+    <tr id='//dash_ref_{{category.0}}/Entry/{{entry.0|abbreviate:20}}/0'>
     <td class='description' colspan='2'>
     <div class='name'><p>{{entry.0}}</p></div>
     <div class='notes'><p>{{entry.1|safe}}</p></div>
@@ -47,7 +58,8 @@
 {% endfor %}
 </article>
 <footer>
-Generated with <a onclick="window.dash.openExternal_(this.href); return false;" href='https://github.com/Kapeli/cheatset#readme'>cheatset</a>
+<a onclick="window.dash.openExternal_(this.href); return false;" 
+href='https://github.com/holyjak/dash-asciidoc-cheatsheet'>Open cheat sheet source</a>
 </footer>
 </body>
 </html>

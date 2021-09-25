@@ -17,4 +17,9 @@ Prerequisites: [Babashka](https://babashka.org), Docker.
 
 ## TODO
 
-Improve styling, copy the necessary asciidoc style minimum (e.g. to make %autowidth working).
+* Links to entries from docset ToC do not work, cats. ok
+* Improve styling, copy the necessary asciidoc style minimum (e.g. to make %autowidth working).
+* Does intra link ' see "Links and anchors" below' work?
+
+* Add to ToC and/or index selected intra-entry stuff, such as "Macros" under Extra
+  (simple version: 1. hickory to find all such inside an entry, 2. add idx pointing to the parent entry)
