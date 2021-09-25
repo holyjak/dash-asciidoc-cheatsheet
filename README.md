@@ -20,3 +20,11 @@ Prerequisites: [Babashka](https://babashka.org), Docker.
 * Add to ToC and/or index selected intra-entry stuff, such as "Macros" under Extra
   (simple version: 1. hickory to find all such inside an entry, 2. add idx pointing to the parent entry)
 * Add an icon
+
+## Creating a release
+
+Tag the code (`git tag `2.0.0/optional-custom-marker`), push (`git push; git push --tags`)
+
+Create a release manually from the pushed tag (even though GH will create a release automatically from the tag, you need to also create it manually so that our workflow kicks in) - _Draft release_, type the new tag name, …​ .
+
+A GH action kicks in that builds the docset .zip and attaches it to the release
