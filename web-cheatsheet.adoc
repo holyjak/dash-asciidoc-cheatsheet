@@ -8,10 +8,10 @@
 = Main Header
 Optional Author Name <optional@author.email>
 Optional version, optional date
-:Author:    AlternativeWayToSetOptional Author Name
-:Email:     <AlternativeWayToSetOptional@author.email>
-:Date:      AlternativeWayToSetOptional date
-:Revision:  AlternativeWayToSetOptional version
+:author: AlternativeWayToSetOptional Author Name
+:email: <AlternativeWayToSetOptional@author.email>
+:revdate: AlternativeWayToSetOptional date
+:revnumber: AlternativeWayToSetOptional version
 ....
 
 == Attributes
@@ -20,27 +20,26 @@ Optional version, optional date
 
 Configure and turn on/off built-in features, built-in asset locations, set "variables" for reuse elsewhere in the document. See https://docs.asciidoctor.org/asciidoc/latest/attributes/document-attributes/#what-does-defining-a-document-attribute-mean[rules for values].
 
-Most document attributes are set right under the main header / document title, some can be (re)set anywhere (e.g. `secnum`):
+Most document attributes are set right under the main header / document title, some can be (re)set anywhere (e.g. `sectnums`):
 
 ....
 = Document Title
-:secnum:          // turn on a boolean attr
-:!secnum:         // turn it off
-:imagesdir: ./my/img/subdir/     // built-in attr. with a value
+:sectnums: // turn on a boolean attr
+:!sectnums: // turn it off
+:imagesdir: ./my/img/subdir/ // built-in attr. with a value
 :my-homepage: https://holyjak.cz // a custom attribute
 
 A reference to an attribute such as link:{my-homepage}[my www] 
 will be replaced with the value automatically.
 ....
 
-
 === Element attributes
 
 Override the built-in settings of blocks, macros, or inline elements and add custom settings (e.g. id, CSS classes) by using attribute lists. Attributes are _comma-separated_ and can be _positional_ (come first) and/or _named_:
 
 ....
-image:path[Image alt text,200, 150]
-image:path["Image alt text", height=150,width=200]
+image:path[Image alt text,200,150]
+image:path["Image alt text",height=150,width=200]
 ....
 
 * Values can be enclosed in double `"` or single `'` _quotes_; only inside `'...'` do normal substitutions (basic formatting etc.) apply
@@ -71,7 +70,7 @@ To auto-number sections, turn on `sectnums`:
 
 ....
 :sectnums:
-:sectnumlevels: 2   <1>
+:sectnumlevels: 2 <1>
 == Numbered section
 :!sectnums:
 == Unnumbered again
@@ -145,7 +144,7 @@ NOTE: An admonition *paragraph* draws attention to auxiliary information.
 * An admonition *block* may contain complex content.
 ====
 
-All admonitions: NOTE, TIP, IMPORTANT, WARNING, CAUTION .
+All admonitions: NOTE, TIP, IMPORTANT, WARNING, CAUTION.
 
 === Blocks
 
@@ -229,12 +228,11 @@ include::includes-examples.adoc[tag=lists-other-types]
 
 +++</td></tr></table>+++
 
-
 == Links and anchors
 
 === Anchors
 
-*Block or a section* heading: in the attribute list include `[id=myid]` or the shorthand form `+[#myid]+` (as first).
+*Block or a section* heading: use a block anchor `+[[myid]]+` or the shorthand form `+[#myid]+` in the first position of the block attribute list.
 
 *Inline*, on quoted text using _either_ formatting marks such as `*` _or_ put `#` around the text:
 `+[#inline_target]#targeted# txt+`. Or just insert an empty anchor: `+[[empty-anchor]]not inside+`.
@@ -268,7 +266,7 @@ https://docs.asciidoctor.org/asciidoc/latest/macros/link-macro-ref/[Supported at
 
 Block image: `+image::<path|url>[<attributes>]+`
 
-Inline image: same but single `:`
+Inline image: same as block image, but single `:`
 
 Positional attributes: `[alt, width, height]`. W/h are numbers in px or %: 150 or 50%.
 
@@ -311,4 +309,3 @@ include::includes-examples.adoc[tag=tables]
 * Appendix: prepend a line with `[appendix]`
 * How to https://docs.asciidoctor.org/asciidoc/latest/macros/icons/[enable icons] for admonitions, callouts, and the icon macro
 * [[substitutions]]https://docs.asciidoctor.org/asciidoc/latest/subs/substitutions/[Substitutions, where they apply]; types: special char. (<, >, & -> `+&lt;+` etc.), quotes, attribute `{references}`, replacements (e.g. `+(R), &euro;, &#x2020;+` => (R), &euro;, &#x2020;; Unicode escape sequence yet unsupported), macros, post-replacements (the line break char. `+`)
-
