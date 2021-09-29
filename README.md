@@ -15,11 +15,6 @@ Prerequisites: [Babashka](https://babashka.org), Docker.
     # 2. HTML -> docset
     bb html2dash.bb
 
-## TODO
-
-* Add to ToC and/or index selected intra-entry stuff, such as "Macros" under Extra
-  (simple version: 1. hickory to find all such inside an entry, 2. add idx pointing to the parent entry)
-
 ## Creating a release
 
 Tag the code (`git tag 2.0.0/optional-custom-marker`), push (`git push; git push --tags`)

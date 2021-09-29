@@ -48,7 +48,17 @@
 (defn empty-entry-name? [name]
   (empty? (str/replace name #"\p{Z}" "")))
 
-(defn entry-tuple->title+html [[heading-elm & body-elms]]
+(defn entry-elm->commands 
+  "For each Entry HTML element, find all nested anchors w/o any text 
+  (which I use to indicate 'commands', i.e. things of interest to be searchable)"
+  [entry-elm]
+  (->> entry-elm
+       (s/select (s/and (s/tag :a)))
+       (filter (comp nil? :content))
+       (keep (comp :id :attrs))
+       set))
+
+(defn entry-tuple->title+html+commands [[heading-elm & body-elms]]
   (assert (= :h3 (:tag heading-elm)))
   (assert (seq body-elms))
   [(let [h (heading-elm->text heading-elm)]
@@ -56,14 +66,17 @@
      (if (empty-entry-name? h) "" h))
    (->> body-elms
         (map hickory-to-html)
-        (str/join "\n"))])
+        (str/join "\n"))
+   (->> body-elms
+        (map entry-elm->commands)
+        (apply concat))])
 
 (defn category-tuple->title+entries [[heading-elm body-elm]]
   (assert (= :h2 (:tag heading-elm)))
   (assert (-> body-elm :attrs :class #{"sectionbody"}))
   [(heading-elm->text heading-elm)
    (map-container-children
-     entry-tuple->title+html
+     entry-tuple->title+html+commands
      (s/and (s/tag :div) (s/class :sect2))
      body-elm)])
 
@@ -82,9 +95,16 @@
        (mapcat
          (fn [[category-id entries]]
            (conj
-             (map (fn [[entry-name]]
-                    [entry-name :Entry (format "index.html#//dash_ref_%s/Entry/%s/0"
-                                         category-id entry-name)])
+             (mapcat
+               (fn [[entry-name _html commands]]
+                 (let [entry-url (format "index.html#//dash_ref_%s/Entry/%s/0"
+                                   category-id entry-name)]
+                   (conj
+                     (map
+                       (fn [command]
+                         [command :Command entry-url]) ; navigating to the parent entry is simpler to impl. and good enough :)
+                       commands)
+                     [entry-name :Entry entry-url])))
                entries)
              [category-id :Category (format "index.html#//dash_ref/Category/%s/1" category-id)])))))
 
@@ -132,6 +152,8 @@
   (printf "Index file `%s` written\n" index-file))
 
 (comment
+  
+
   
   (sqlite/query 
     index-file
