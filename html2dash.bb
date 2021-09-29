@@ -116,6 +116,7 @@
   (when (fs/directory? docset-root)
     (fs/delete-tree docset-root))
   (fs/create-dirs docset-docs)
+  (fs/copy "resources/icon.png" docset-root)
   (fs/copy-tree "resources/Contents" docset-contents)
 
   (spit html-file

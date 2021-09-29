@@ -19,7 +19,6 @@ Prerequisites: [Babashka](https://babashka.org), Docker.
 
 * Add to ToC and/or index selected intra-entry stuff, such as "Macros" under Extra
   (simple version: 1. hickory to find all such inside an entry, 2. add idx pointing to the parent entry)
-* Add an icon
 
 ## Creating a release
 
