@@ -176,14 +176,14 @@ All admonitions: [[NOTE]]NOTE, [[TIP]]TIP, [[IMPORTANT]]IMPORTANT, [[WARNING]]WA
 |===
 | block type | separator, attributes, comments
 
-| [[source code]]source code | `----`; attributes: `[source,ruby]`
+| [[source_code]]source code | `----`; attributes: `[source,ruby]`
 | source code (markdown) 
 | [[pass]]`pass:[```&lt;language&gt; ... ```]`
 | [[sidebar]]sidebar | `+++****+++`
 | [[example]]example | `====`; expandable^1^: `[%collapsible]`, closable: `[%collapsible%open]`
 | [[quote]]quote   | `+++____+++`; attributes: `[quote, Author, Source]`^2^
 | quote, alternative | "Text in quotes", on a new line `-- Author, Source`
-| [[open block]]open^1^    | `--` An anonymous container; can masquerade as any other by naming it: `+[source\|...]+`
+| [[open_block]]open^1^    | `--` An anonymous container; can masquerade as any other by naming it: `+[source\|...]+`
 | [[passthrough]]passthrough | `pass:[++++]`, pass content unchanged; e.g. to include HTML  
 |===
 

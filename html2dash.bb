@@ -102,7 +102,7 @@
                    (conj
                      (map
                        (fn [command]
-                         [command :Command entry-url]) ; navigating to the parent entry is simpler to impl. and good enough :)
+                         [(str/replace command "_" " ") :Command entry-url]) ; navigating to the parent entry is simpler to impl. and good enough :)
                        commands)
                      [entry-name :Entry entry-url])))
                entries)
