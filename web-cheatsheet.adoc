@@ -143,9 +143,9 @@ Ex.: `+[.class.another]#some text#+`.
 | [.my-class]#txt# | assign arbitrary css class: `+[.my-class]#txt#+`
 | [[superscript]]^super^script | `+^super^script+`
 | [[subscript]]~sub~script | `+~sub~script+`
-| [[quotes]]"`double curved quotes`" | `+"`double curved quotes`"+`
-| '`single curved quotes`' | `+'`single curved quotes`'+`
-| [[apostrophes]]apostrophes`' vs x' | `+apostrophes`' vs x'+`
+| [[quotes]]"`double curved quotes`" | pass:["`double curved quotes`"]
+| '`single curved quotes`' | pass:['`single curved quotes`']
+| [[apostrophes]]apostrophes`' vs x' | pass:[apostrophes`' vs x']
 |===
 
 == Blocks and admonitions
