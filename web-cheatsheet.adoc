@@ -279,7 +279,7 @@ https://docs.asciidoctor.org/asciidoc/latest/macros/link-macro-ref/[Supported at
 
 === Images
 
-Block image: `+image::<path|url>[<attributes>]+`
+Block image: `+image::<path|url>[<attributes>]+` (prepend a `.block title` line for a caption)
 
 Inline image: same as block image, but single `:`
 
@@ -289,7 +289,6 @@ Named attributes (^1^ applies only to block images):
 
 * https://docs.asciidoctor.org/asciidoc/latest/macros/image-position/[Positioning]: align^1^=left|center|right, float=left|right (adds CSS style with `float`), role (built-in classes: left, right, text-left, text-right, text-center; note: `.role` shorthand not supported)
 * Add a frame: `role="thumb"` (as thumbnail)
-* caption^1^
 * link
 
 Note: The document attribute [[imagesdir]]`imagesdir` (default: empty) is automatically prepended to all relative paths.
