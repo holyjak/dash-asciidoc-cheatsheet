@@ -254,17 +254,17 @@ include::includes-examples.adoc[tag=lists-other-types]
 
 Anchors can be used anywhere https://docs.asciidoctor.org/asciidoc/latest/subs/#substitution-groups[where macro substitution applies].
 
-[#links-anchor]
+[#heading-anchor]
 === Links
 
-*Link to an anchor* via `+<<myid>>+`, which will use the target text as the label, or `+<<myid,custom label>>+`. You can also link directly to a section heading using its text: `+<<Links>>+`.
+*Link to an anchor* via `+<<myid>>+`, which will use the target text as the label (only works for headings), or `+<<myid,custom label>>+`. You can also link directly to a section heading using its text: `+<<Links>>+`.
 
 [%autowidth]
 |===
 | *Links to anchors:* |
-| `+<<links-anchor>>+` | <<links-anchor>>
-| `+<<links-anchor,my label>>+` | <<links-anchor,my label>>
-| `+<<Links>>+` | <<Links>>
+| `+<<heading-anchor>>+`, `+<<inline_target>>+` | <<heading-anchor>>, <<inline_target>>
+| `+<<heading-anchor,my label>>+` | <<heading-anchor,my label>>
+| `+<<Links>>+` - heading text | <<Links>>
 | *External links:* |
 | `+http://xy.z+` | http://xy.z
 | `+http://xy.z[label]+` | http://xy.z[label]
