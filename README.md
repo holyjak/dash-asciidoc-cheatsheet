@@ -15,6 +15,12 @@ Prerequisites: [Babashka](https://babashka.org), Docker.
     # 2. HTML -> docset
     bb html2dash.bb
 
+
+NOTE: If using cheatset:
+
+    # 3. .rb -> docset
+    docker run --rm  -it --volume $PWD:/tmp --name cheatset jonasbn/cheatset:latest generate AsciiDoctor.rb
+
 ## Creating a release
 
 Tag the code (`git tag 2.0.0/optional-custom-marker`), push (`git push; git push --tags`)
