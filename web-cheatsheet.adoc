@@ -152,12 +152,21 @@ Ex.: `+[.class.another]#some text#+`.
 
 === Admonitions
 
-NOTE: An admonition *paragraph* draws attention to auxiliary information.
++++<table><tr style="vertical-align:top"><td>+++
 
-[NOTE]
-====
-* An admonition *block* may contain complex content.
-====
+.Admonitions' source
+....
+include::includes-examples.adoc[tag=admonitions]
+....
+
++++</td><td>+++
+
+.Admonitions rendered
+--
+include::includes-examples.adoc[tag=admonitions]
+--
+
++++</td></tr></table>+++
 
 All admonitions: [[NOTE]]NOTE, [[TIP]]TIP, [[IMPORTANT]]IMPORTANT, [[WARNING]]WARNING, [[CAUTION]]CAUTION.
 
@@ -318,7 +327,7 @@ include::includes-examples.adoc[tag=tables]
 * [[comment]]Comments: `// comment here`
 * [[macro]]Macros: block (`::`) or inline (`:`): `+<macro name>::<target>[<attrs>]+`
 * [[escape]]https://docs.asciidoctor.org/asciidoc/latest/pass/pass-macro/[Escape] by prepending `+\+` or wrapping with `pass:[+++...+++]` or use the pass inline macro `+++pass:[whatever]+++` 
-* `+'''+` => `<hr>`
+* [[hr]]`+'''+` => `<hr>`
 * [[footnote]]Footnote: `footnote:<optional id>[text]`
 * [[appendix]]Appendix: prepend a line with `[appendix]`
 * [[icons]]How to https://docs.asciidoctor.org/asciidoc/latest/macros/icons/[enable icons] for admonitions, callouts, and the icon macro

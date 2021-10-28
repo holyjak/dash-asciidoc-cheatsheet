@@ -13,6 +13,19 @@ Another paragraph.
  A literal paragraph is indented
 // end::paragraphs[]
 
+== Admonitions
+
+// tag::admonitions[]
+NOTE: An admonition *paragraph* draws 
+attention to auxiliary information.
+
+[NOTE]
+====
+* An admonition *block* may contain
+  complex content.
+====
+// end::admonitions[]
+
 == Lists
 
 // tag::lists[]
