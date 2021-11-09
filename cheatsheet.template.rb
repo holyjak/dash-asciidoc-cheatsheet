@@ -36,7 +36,7 @@ cheatsheet do
       {% for command in entry.2 %}
       command '{{command}}'
       {% endfor %}
-      notes <<-'HTMLEND'
+      html_notes <<-'HTMLEND'
         {{entry.1|safe}}
       HTMLEND
     end
