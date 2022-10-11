@@ -76,10 +76,10 @@ Its answer
 // tag::codelisting[]
 [source]
 ----
-clojure, SQL     ;  <1>
-C-like           // <2>
-Python etc.      #  <3>
-XML              <!--4-->
+clojure, SQL     ;  \<1>
+C-like           // \<2>
+Python etc.      #  \<3>
+XML              \<!--4-->
 # Include from a file, specific lines only (-1 = until the end):
 \include::filename.txt[lines=7;14..25;30..-1]
 

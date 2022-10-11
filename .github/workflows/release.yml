@@ -26,4 +26,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          args: 'AsciiDoctor.docset.zip'
+          args: 'AsciiDoctor.docset.zip AsciiDoctor.rb'
