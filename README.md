@@ -17,7 +17,7 @@ Prerequisites: [Babashka](https://babashka.org), Docker.
 
 There are two ways to get the docset into Dash:
 
-1. Locally, you can manually add the created docset directory `./AsciiDoctor.docset/` This is preferable as the formatting and index are richer
+1. Locally, you can manually add the created docset directory `./AsciiDoctor.docset/` This is preferable as the formatting and index are richer. In Dash go to Preferences... - Docsets - click the `+` at the bottom let corner - Add Local Docset - browse to `AsciiDoctor.docset`
 2. From the generated docset generator `AsciiDoctor.rb` (see below) - this is how the docset is created by Dash itself, when I update https://github.com/Kapeli/cheatsheets/blob/master/cheatsheets/AsciiDoctor.rb[Kapeli/cheatsheets/../AsciiDoctor.rb].
 
 Simulating how Dash produces a cheatsheet docset using https://github.com/Kapeli/cheatset/[cheatset]:
